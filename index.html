@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eczy — find what makes your eczema flare</title>
+<meta name="description" content="Eczy is a 10-second daily skin diary that spots your eczema triggers and turns them into a clear report for your dermatologist. Join the waitlist.">
+<meta property="og:title" content="Eczy — find what makes your eczema flare">
+<meta property="og:description" content="A 10-second daily skin diary that spots your triggers. For adults and parents. Join the waitlist.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F4B8A6'/%3E%3Cpath d='M20 34c4 8 20 8 24 0' stroke='%23fff' stroke-width='5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg: #FFF8F4; --card: #FFFFFF; --ink: #2E2A33; --muted: #6E6672;
+    --accent: #E9846C; --accent-soft: #FCE3DA; --mint: #DDF2EA; --mint-ink: #2F7A60;
+    --line: #F1E4DD; --shadow: 0 10px 30px rgba(110, 70, 60, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1C1A1F; --card: #26232A; --ink: #F5EFEA; --muted: #B5ACB3; --accent: #F09A82;
+            --accent-soft: #3A2B28; --mint: #1F3530; --mint-ink: #8FD6BC; --line: #34303A; --shadow: none; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 17px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 28px 18px 60px; }
+  header { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 22px; letter-spacing: -0.3px; }
+  .logo { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; }
+  .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 36px; align-items: center; margin-top: 34px; }
+  @media (max-width: 820px) { .hero { grid-template-columns: 1fr; } }
+  h1 { font-size: clamp(34px, 6vw, 52px); line-height: 1.08; margin: 0 0 14px; letter-spacing: -1px; }
+  h1 span { color: var(--accent); }
+  .lead { font-size: 19px; color: var(--muted); margin: 0 0 22px; }
+  .notice { background: var(--mint); color: var(--mint-ink); border-radius: 14px; padding: 12px 16px; font-size: 15px; margin-bottom: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 22px; box-shadow: var(--shadow); }
+  form label.q { display: block; font-weight: 700; font-size: 15px; margin: 14px 0 8px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips input { position: absolute; opacity: 0; pointer-events: none; }
+  .chips label { border: 1.5px solid var(--line); border-radius: 999px; padding: 8px 14px; font-size: 15px; cursor: pointer; background: var(--bg); }
+  .chips input:checked + label { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+  .chips input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+  input[type=email] { width: 100%; font-size: 17px; padding: 13px 14px; border-radius: 14px; border: 1.5px solid var(--line); background: var(--bg); color: var(--ink); }
+  input[type=email]:focus { outline: none; border-color: var(--accent); }
+  .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; color: var(--muted); margin-top: 14px; }
+  .consent input { margin-top: 3px; accent-color: var(--accent); width: 18px; height: 18px; }
+  button { width: 100%; margin-top: 16px; border: 0; border-radius: 16px; padding: 15px; font-size: 18px; font-weight: 800;
+           background: var(--accent); color: #fff; cursor: pointer; }
+  button:disabled { opacity: 0.6; cursor: default; }
+  .err { color: #C2412D; font-size: 14px; margin-top: 10px; min-height: 1em; }
+  .thanks { display: none; text-align: center; padding: 10px 4px; }
+  .thanks h2 { margin: 6px 0; }
+  .thanks .share { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
+  .thanks .share a, .thanks .share button { width: auto; margin: 0; font-size: 15px; padding: 10px 14px; border-radius: 12px;
+           background: var(--accent-soft); color: var(--ink); text-decoration: none; font-weight: 700; }
+  .phone { margin: 0 auto; width: min(320px, 100%); aspect-ratio: 9 / 18; border-radius: 40px; background: var(--card);
+           border: 1px solid var(--line); box-shadow: var(--shadow); padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .phone .row { background: var(--bg); border-radius: 16px; padding: 12px 14px; font-size: 14px; }
+  .phone .row b { display: block; font-size: 15px; }
+  .bar { height: 8px; border-radius: 8px; background: var(--line); margin-top: 8px; overflow: hidden; }
+  .bar i { display: block; height: 100%; background: var(--accent); border-radius: 8px; }
+  .features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 46px; }
+  @media (max-width: 640px) { .features { grid-template-columns: 1fr; } }
+  .feature h3 { margin: 6px 0 4px; font-size: 18px; }
+  .feature p { margin: 0; color: var(--muted); font-size: 15px; }
+  .emoji { font-size: 26px; }
+  footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+  footer p { margin: 6px 0; }
+</style>
+</head>
+<body>
+<main>
+  <header><div class="logo" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M6 13c2 4 10 4 12 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round"/></svg></div>Eczy</header>
+
+  <section class="hero">
+    <div>
+      <h1>Find out what makes your <span>eczema flare</span>.</h1>
+      <p class="lead">Eczy is a 10-second daily skin diary. It spots patterns between your flares and the weather, foods, products and stress, and turns months of notes into a clear one-page report for your dermatologist. For adults and for parents.</p>
+      <div class="notice">Using EczemaWise? It closes on <b>18 December 2026</b>. Join the list and we'll let you know as soon as Eczy is ready.</div>
+
+      <div class="card" id="signup">
+        <form id="form" novalidate>
+          <label class="q">Who is it for?</label>
+          <div class="chips">
+            <input type="radio" name="who" id="w1" value="Me"><label for="w1">Me</label>
+            <input type="radio" name="who" id="w2" value="My child"><label for="w2">My child</label>
+            <input type="radio" name="who" id="w3" value="Both"><label for="w3">Both</label>
+          </div>
+
+          <label class="q">Have you used EczemaWise?</label>
+          <div class="chips">
+            <input type="radio" name="ew" id="e1" value="Yes"><label for="e1">Yes</label>
+            <input type="radio" name="ew" id="e2" value="No"><label for="e2">No</label>
+          </div>
+
+          <label class="q">After a free trial, would you pay $7.99/month for it?</label>
+          <div class="chips">
+            <input type="radio" name="pay" id="p1" value="Yes"><label for="p1">Yes</label>
+            <input type="radio" name="pay" id="p2" value="Maybe"><label for="p2">Maybe</label>
+            <input type="radio" name="pay" id="p3" value="No"><label for="p3">No</label>
+          </div>
+
+          <label class="q" for="email">Your email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+
+          <label class="consent"><input type="checkbox" id="consent"> <span>Email me when Eczy launches. One or two emails, no spam, unsubscribe anytime.</span></label>
+
+          <button type="submit" id="submit">Join the waitlist</button>
+          <div class="err" id="err" role="alert"></div>
+        </form>
+        <div class="thanks" id="thanks">
+          <div class="emoji">🌿</div>
+          <h2>You're on the list</h2>
+          <p>We'll email you when Eczy is ready. Know someone else with eczema?</p>
+          <div class="share">
+            <button type="button" id="shareBtn">Share Eczy</button>
+            <a id="copyLink" href="#">Copy link</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phone" aria-hidden="true">
+      <div class="row"><b>Today · How's your skin?</b>😌 Calm &nbsp; 🙂 Mild &nbsp; 😣 Flare</div>
+      <div class="row"><b>Itch this week</b><div class="bar"><i style="width:38%"></i></div></div>
+      <div class="row"><b>Pattern spotted</b>Your flares were 3× more likely on days with humidity under 30%.</div>
+      <div class="row"><b>Weather today</b>Humidity 28% · Pollen high</div>
+      <div class="row"><b>Doctor report</b>12 weeks · 9 flares · top triggers ready to share</div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="card feature"><div class="emoji">⏱️</div><h3>10 seconds a day</h3><p>Tap how your skin feels, add a photo if you like. That's it.</p></div>
+    <div class="card feature"><div class="emoji">🌦️</div><h3>Weather and pollen, automatically</h3><p>Humidity, temperature and pollen are logged for you, so you can see if they matter.</p></div>
+    <div class="card feature"><div class="emoji">🧴</div><h3>Creams, foods and products</h3><p>Note what you use and eat. Eczy shows which ones go with calmer or worse days.</p></div>
+    <div class="card feature"><div class="emoji">📄</div><h3>A report your doctor can read</h3><p>A clear summary of flares, photos and treatments to bring to your next appointment.</p></div>
+    <div class="card feature"><div class="emoji">👶</div><h3>Made for parents too</h3><p>Track your child's skin, or the whole family's, in one place.</p></div>
+    <div class="card feature"><div class="emoji">🔒</div><h3>Private by default</h3><p>Your diary stays yours. No ads, and we never sell your data.</p></div>
+  </section>
+
+  <footer>
+    <p>Eczy is a tracking tool. It does not diagnose, treat or replace advice from your doctor.</p>
+    <p>Eczy is independent and not affiliated with the National Eczema Association or EczemaWise.</p>
+    <p>Privacy: we only use your email to tell you when Eczy launches. Your answers are stored with Google Forms. To be removed, reply to any email from us.</p>
+  </footer>
+</main>
+
+<script>
+  const FORM = "https://docs.google.com/forms/d/e/1FAIpQLSdnx1N_sbTBQofvHNcdCEg42n1BM3OG71f0HiZyfnt2zVi3PA/formResponse";
+  const ENTRY = { who: "entry.1746982926", ew: "entry.2046082872", pay: "entry.1147893328", email: "entry.2065012492" };
+  const form = document.getElementById("form"), err = document.getElementById("err"), btn = document.getElementById("submit");
+  const pick = name => (form.querySelector(`input[name=${name}]:checked`) || {}).value || "";
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    err.textContent = "";
+    const email = document.getElementById("email").value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { err.textContent = "Please enter a valid email."; return; }
+    if (!document.getElementById("consent").checked) { err.textContent = "Please tick the box so we can email you at launch."; return; }
+    const body = new URLSearchParams();
+    body.append(ENTRY.email, email);
+    if (pick("who")) body.append(ENTRY.who, pick("who"));
+    if (pick("ew")) body.append(ENTRY.ew, pick("ew"));
+    if (pick("pay")) body.append(ENTRY.pay, pick("pay"));
+    btn.disabled = true; btn.textContent = "Joining…";
+    try {
+      await fetch(FORM, { method: "POST", mode: "no-cors", body });
+      form.style.display = "none";
+      document.getElementById("thanks").style.display = "block";
+    } catch (_) {
+      err.textContent = "Something went wrong. Please try again.";
+      btn.disabled = false; btn.textContent = "Join the waitlist";
+    }
+  });
+
+  const url = location.origin + location.pathname;
+  document.getElementById("shareBtn").addEventListener("click", async () => {
+    const data = { title: "Eczy", text: "A 10-second daily skin diary that spots eczema triggers. Join the waitlist:", url };
+    if (navigator.share) { try { await navigator.share(data); } catch (_) {} }
+    else { try { await navigator.clipboard.writeText(url); } catch (_) {} }
+  });
+  document.getElementById("copyLink").addEventListener("click", async e => {
+    e.preventDefault();
+    try { await navigator.clipboard.writeText(url); e.target.textContent = "Copied!"; } catch (_) {}
+  });
+</script>
+</body>
+</html>
